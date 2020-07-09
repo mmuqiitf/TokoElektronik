@@ -49,7 +49,7 @@ public class ExecutePelanggan {
         int hasil = 0;
         String query = "insert into pelanggan(nama, no_telpon, alamat) values"
                 + "('"+p.getNama()+"','"+p.getNo_telpon()+ "','"
-                + p.getAlamat()+ "')"; ;
+                + p.getAlamat()+ "')";
         ConnectionManager conMan = new ConnectionManager();
         Connection conn = conMan.logOn();
         try {
