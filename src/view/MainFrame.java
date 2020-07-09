@@ -12,11 +12,15 @@ import com.Jenis;
 import com.Merk;
 import com.Pegawai;
 import com.Pelanggan;
+import com.Transaksi;
 import db.ConnectionManager;
 import exec.ExecuteBarang;
 import exec.ExecuteJabatan;
+import exec.ExecuteJenis;
+import exec.ExecuteMerk;
 import exec.ExecutePegawai;
 import exec.ExecutePelanggan;
+import exec.ExecuteTransaksi;
 import java.awt.CardLayout;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -41,7 +45,9 @@ public class MainFrame extends javax.swing.JFrame {
         setDataBarang();
         setDataPelanggan();
         setDataJabatan();
-        
+        setDataJenis();
+        setDataMerk();
+        setDataTransaksi();
     }
     public int id_pegawai, id_pelanggan, id_barang, id_merk, id_jenis, id_jabatan, id_transaksi;
     
@@ -129,7 +135,78 @@ public class MainFrame extends javax.swing.JFrame {
                 "ID Jabatan", "Nama"
             }
         ));
-        jScrollPane3.setViewportView(tblBarang);
+        jScrollPane6.setViewportView(tblBarang);
+    }
+    
+    private void setDataJenis(){
+        ConvertListToObject clto = new ConvertListToObject();
+        String[][] dataJabatan = clto.getJenis();
+        tblJenis.setModel(new javax.swing.table.DefaultTableModel(
+            dataJabatan,
+            new String [] {
+                "ID Jenis", "Nama", "Keterangan"
+            }
+        ));
+        jScrollPane7.setViewportView(tblJenis);
+    }
+    
+    private void setDataMerk(){
+        ConvertListToObject clto = new ConvertListToObject();
+        String[][] dataMerk = clto.getMerk();
+        tblMerk.setModel(new javax.swing.table.DefaultTableModel(
+            dataMerk,
+            new String [] {
+                "ID Merk", "Nama"
+            }
+        ));
+        jScrollPane8.setViewportView(tblMerk);
+    }
+    
+    private void setDataTransaksi(){
+        ConvertListToObject clto = new ConvertListToObject();
+        String[][] dataTransaksi = clto.getTransaksi();
+        tblTransaksi.setModel(new javax.swing.table.DefaultTableModel(
+            dataTransaksi,
+            new String [] {
+                "ID Transaksi", "ID Pelanggan", "ID Barang", "ID Pegawai", "Qty"
+            }
+        ));
+        jScrollPane10.setViewportView(tblTransaksi);
+        PreparedStatement ps;
+        PreparedStatement ps2;
+        PreparedStatement ps3;
+        try{
+            ConnectionManager conMan = new ConnectionManager();
+            ConnectionManager conMan2 = new ConnectionManager();
+            ConnectionManager conMan3 = new ConnectionManager();
+            Connection conn = conMan.logOn();
+            Connection conn2 = conMan2.logOn();
+            Connection conn3 = conMan3.logOn();
+            ps = conn.prepareStatement("select * from pelanggan");
+            ps2 = conn2.prepareStatement("select * from barang");
+            ps3 = conn3.prepareStatement("select * from pegawai");
+            Vector<Pelanggan> vectorPelanggan = new Vector<>();
+            Vector<Barang> vectorBarang = new Vector<>();
+            Vector<Pegawai> vectorPegawai = new Vector<>();
+            ResultSet rs = ps.executeQuery();
+            ResultSet rs2 = ps2.executeQuery();
+            ResultSet rs3 = ps3.executeQuery();
+            while(rs.next()){
+                vectorPelanggan.addElement(new Pelanggan(rs.getInt("id_pelanggan"), rs.getString("nama")));
+                cbbPelanggan.setModel(new DefaultComboBoxModel(vectorPelanggan));
+                while(rs2.next()){
+                    vectorBarang.addElement(new Barang(rs2.getInt("id_barang"), rs2.getString("nama")));
+                    cbbBarang.setModel(new DefaultComboBoxModel(vectorBarang));
+                    while(rs3.next()){
+                        vectorPegawai.addElement(new Pegawai(rs3.getInt("id_pegawai"), rs3.getString("nama")));
+                        cbbPegawai.setModel(new DefaultComboBoxModel(vectorPegawai));
+                    }
+                }
+            }
+            
+        }catch(SQLException sQLException){
+            sQLException.printStackTrace();
+        }
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -212,7 +289,41 @@ public class MainFrame extends javax.swing.JFrame {
         btnJabatanUpdate = new javax.swing.JButton();
         btnJabatanDelete = new javax.swing.JButton();
         pnlTransaksi = new javax.swing.JPanel();
+        jPanel6 = new javax.swing.JPanel();
+        cbbPelanggan = new javax.swing.JComboBox<>();
+        cbbBarang = new javax.swing.JComboBox<>();
+        cbbPegawai = new javax.swing.JComboBox<>();
+        txtQtyTransaksi = new javax.swing.JTextField();
+        btnSubmitTransaksi = new javax.swing.JButton();
+        btnUpdateTransaksi = new javax.swing.JButton();
+        btnDeleteTransaksi = new javax.swing.JButton();
+        jLabel21 = new javax.swing.JLabel();
+        jLabel22 = new javax.swing.JLabel();
+        jLabel23 = new javax.swing.JLabel();
+        jLabel24 = new javax.swing.JLabel();
+        jScrollPane10 = new javax.swing.JScrollPane();
+        tblTransaksi = new javax.swing.JTable();
         pnlMerkJenis = new javax.swing.JPanel();
+        pnlJenis = new javax.swing.JPanel();
+        jPanel5 = new javax.swing.JPanel();
+        txtNamaJenis = new javax.swing.JTextField();
+        jScrollPane9 = new javax.swing.JScrollPane();
+        taKeteranganJenis = new javax.swing.JTextArea();
+        jLabel18 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
+        btnSubmitJenis = new javax.swing.JButton();
+        btnUpdateJenis = new javax.swing.JButton();
+        btnDeleteJenis = new javax.swing.JButton();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        tblJenis = new javax.swing.JTable();
+        jPanel7 = new javax.swing.JPanel();
+        txtNamaMerk = new javax.swing.JTextField();
+        jLabel20 = new javax.swing.JLabel();
+        btnSubmitMerk = new javax.swing.JButton();
+        btnUpdateMerk = new javax.swing.JButton();
+        btnDeleteMerk = new javax.swing.JButton();
+        jScrollPane8 = new javax.swing.JScrollPane();
+        tblMerk = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -422,7 +533,7 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(pnlPegawaiLayout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 521, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 544, Short.MAX_VALUE))
         );
         pnlPegawaiLayout.setVerticalGroup(
             pnlPegawaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -565,7 +676,7 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(pnlBarangLayout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 539, Short.MAX_VALUE))
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 562, Short.MAX_VALUE))
         );
         pnlBarangLayout.setVerticalGroup(
             pnlBarangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -764,7 +875,7 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlJabatanLayout.createSequentialGroup()
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 521, Short.MAX_VALUE))
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 544, Short.MAX_VALUE))
         );
         pnlJabatanLayout.setVerticalGroup(
             pnlJabatanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -774,28 +885,311 @@ public class MainFrame extends javax.swing.JFrame {
 
         pnlUtama.add(pnlJabatan, "cardJabatan");
 
+        btnSubmitTransaksi.setText("Submit");
+        btnSubmitTransaksi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSubmitTransaksiActionPerformed(evt);
+            }
+        });
+
+        btnUpdateTransaksi.setText("Update");
+        btnUpdateTransaksi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateTransaksiActionPerformed(evt);
+            }
+        });
+
+        btnDeleteTransaksi.setText("Delete");
+        btnDeleteTransaksi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteTransaksiActionPerformed(evt);
+            }
+        });
+
+        jLabel21.setText("ID Pelanggan");
+
+        jLabel22.setText("ID Barang");
+
+        jLabel23.setText("ID Pegawai");
+
+        jLabel24.setText("Quantity");
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel21)
+                    .addComponent(jLabel22)
+                    .addComponent(jLabel23)
+                    .addComponent(jLabel24))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnDeleteTransaksi)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addComponent(btnSubmitTransaksi)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnUpdateTransaksi))
+                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(cbbPegawai, 0, 161, Short.MAX_VALUE)
+                        .addComponent(cbbBarang, 0, 161, Short.MAX_VALUE)
+                        .addComponent(cbbPelanggan, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txtQtyTransaksi)))
+                .addGap(28, 28, 28))
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cbbPelanggan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel21))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cbbBarang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel22))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cbbPegawai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel23))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtQtyTransaksi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel24))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnSubmitTransaksi)
+                    .addComponent(btnUpdateTransaksi))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnDeleteTransaksi)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        tblTransaksi.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        tblTransaksi.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblTransaksiMouseClicked(evt);
+            }
+        });
+        jScrollPane10.setViewportView(tblTransaksi);
+
         javax.swing.GroupLayout pnlTransaksiLayout = new javax.swing.GroupLayout(pnlTransaksi);
         pnlTransaksi.setLayout(pnlTransaksiLayout);
         pnlTransaksiLayout.setHorizontalGroup(
             pnlTransaksiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 817, Short.MAX_VALUE)
+            .addGroup(pnlTransaksiLayout.createSequentialGroup()
+                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane10, javax.swing.GroupLayout.DEFAULT_SIZE, 536, Short.MAX_VALUE))
         );
         pnlTransaksiLayout.setVerticalGroup(
             pnlTransaksiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 485, Short.MAX_VALUE)
+            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jScrollPane10, javax.swing.GroupLayout.DEFAULT_SIZE, 485, Short.MAX_VALUE)
         );
 
         pnlUtama.add(pnlTransaksi, "cardTransaksi");
+
+        taKeteranganJenis.setColumns(20);
+        taKeteranganJenis.setRows(5);
+        jScrollPane9.setViewportView(taKeteranganJenis);
+
+        jLabel18.setText("Nama Jenis");
+
+        jLabel19.setText("Keterangan");
+
+        btnSubmitJenis.setText("Submit");
+        btnSubmitJenis.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSubmitJenisActionPerformed(evt);
+            }
+        });
+
+        btnUpdateJenis.setText("Update");
+        btnUpdateJenis.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateJenisActionPerformed(evt);
+            }
+        });
+
+        btnDeleteJenis.setText("Delete");
+        btnDeleteJenis.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteJenisActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
+                    .addComponent(jLabel19)
+                    .addComponent(jLabel18)
+                    .addComponent(txtNamaJenis)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnDeleteJenis)
+                            .addComponent(btnUpdateJenis)
+                            .addComponent(btnSubmitJenis))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addComponent(jLabel18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtNamaJenis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel19)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnSubmitJenis)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnUpdateJenis)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnDeleteJenis)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        tblJenis.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        tblJenis.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblJenisMouseClicked(evt);
+            }
+        });
+        jScrollPane7.setViewportView(tblJenis);
+
+        javax.swing.GroupLayout pnlJenisLayout = new javax.swing.GroupLayout(pnlJenis);
+        pnlJenis.setLayout(pnlJenisLayout);
+        pnlJenisLayout.setHorizontalGroup(
+            pnlJenisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlJenisLayout.createSequentialGroup()
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        pnlJenisLayout.setVerticalGroup(
+            pnlJenisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 485, Short.MAX_VALUE)
+        );
+
+        jLabel20.setText("Nama Merk");
+
+        btnSubmitMerk.setText("Submit");
+        btnSubmitMerk.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSubmitMerkActionPerformed(evt);
+            }
+        });
+
+        btnUpdateMerk.setText("Update");
+        btnUpdateMerk.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateMerkActionPerformed(evt);
+            }
+        });
+
+        btnDeleteMerk.setText("Delete");
+        btnDeleteMerk.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteMerkActionPerformed(evt);
+            }
+        });
+
+        tblMerk.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        tblMerk.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblMerkMouseClicked(evt);
+            }
+        });
+        jScrollPane8.setViewportView(tblMerk);
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel20)
+                    .addComponent(txtNamaMerk, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnDeleteMerk)
+                    .addComponent(btnUpdateMerk)
+                    .addComponent(btnSubmitMerk))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addComponent(jLabel20)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtNamaMerk, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnSubmitMerk)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnUpdateMerk)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnDeleteMerk)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jScrollPane8)
+        );
 
         javax.swing.GroupLayout pnlMerkJenisLayout = new javax.swing.GroupLayout(pnlMerkJenis);
         pnlMerkJenis.setLayout(pnlMerkJenisLayout);
         pnlMerkJenisLayout.setHorizontalGroup(
             pnlMerkJenisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 817, Short.MAX_VALUE)
+            .addGroup(pnlMerkJenisLayout.createSequentialGroup()
+                .addComponent(pnlJenis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnlMerkJenisLayout.setVerticalGroup(
             pnlMerkJenisLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 485, Short.MAX_VALUE)
+            .addComponent(pnlJenis, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pnlUtama.add(pnlMerkJenis, "cardMerkJenis");
@@ -805,7 +1199,7 @@ public class MainFrame extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(pnlUtama, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pnlUtama, javax.swing.GroupLayout.DEFAULT_SIZE, 840, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -962,7 +1356,7 @@ public class MainFrame extends javax.swing.JFrame {
         int hasil = ex.insertData(b);
         if(hasil >0){
             JOptionPane.showMessageDialog(null, "Data berhasil di simpan");
-            setDataPegawai();
+            setDataBarang();
         }
         else{
             JOptionPane.showMessageDialog(null, "Data gagal di simpan");
@@ -982,7 +1376,7 @@ public class MainFrame extends javax.swing.JFrame {
         int hasil = ex.updateData(b);
         if(hasil >0){
             JOptionPane.showMessageDialog(null, "Data berhasil di ubah");
-            setDataPegawai();
+            setDataBarang();
         }
         else{
             JOptionPane.showMessageDialog(null, "Data gagal di ubah");
@@ -995,7 +1389,7 @@ public class MainFrame extends javax.swing.JFrame {
         int hasil = ex.deleteData(this.id_barang);
         if(hasil >0){
             JOptionPane.showMessageDialog(null, "Data berhasil di hapus");
-            setDataPegawai();
+            setDataBarang();
         }
         else{
             JOptionPane.showMessageDialog(null, "Data gagal di hapus");
@@ -1012,7 +1406,7 @@ public class MainFrame extends javax.swing.JFrame {
         int hasil = ex.insertData(p);
         if(hasil >0){
             JOptionPane.showMessageDialog(null, "Data berhasil di simpan");
-            setDataPegawai();
+            setDataPelanggan();
         }
         else{
             JOptionPane.showMessageDialog(null, "Data gagal di simpan");
@@ -1042,7 +1436,7 @@ public class MainFrame extends javax.swing.JFrame {
         int hasil = ex.updateData(p);
         if(hasil >0){
             JOptionPane.showMessageDialog(null, "Data berhasil di ubah");
-            setDataPegawai();
+            setDataPelanggan();
         }
         else{
             JOptionPane.showMessageDialog(null, "Data gagal di ubah");
@@ -1055,7 +1449,7 @@ public class MainFrame extends javax.swing.JFrame {
         int hasil = ex.deleteData(this.id_pelanggan);
         if(hasil >0){
             JOptionPane.showMessageDialog(null, "Data berhasil di simpan");
-            setDataPegawai();
+            setDataPelanggan();
         }
         else{
             JOptionPane.showMessageDialog(null, "Data gagal di simpan");
@@ -1079,7 +1473,7 @@ public class MainFrame extends javax.swing.JFrame {
         int hasil = ex.insertData(j);
         if(hasil >0){
             JOptionPane.showMessageDialog(null, "Data berhasil di simpan");
-            setDataPegawai();
+            setDataJabatan();
         }
         else{
             JOptionPane.showMessageDialog(null, "Data gagal di simpan");
@@ -1094,7 +1488,7 @@ public class MainFrame extends javax.swing.JFrame {
         int hasil = ex.updateData(j);
         if(hasil >0){
             JOptionPane.showMessageDialog(null, "Data berhasil di ubah");
-            setDataPegawai();
+            setDataJabatan();
         }
         else{
             JOptionPane.showMessageDialog(null, "Data gagal di ubah");
@@ -1107,12 +1501,181 @@ public class MainFrame extends javax.swing.JFrame {
         int hasil = ex.deleteData(this.id_jabatan);
         if(hasil >0){
             JOptionPane.showMessageDialog(null, "Data berhasil di hapus");
-            setDataPegawai();
+            setDataJabatan();
         }
         else{
             JOptionPane.showMessageDialog(null, "Data gagal di hapus");
         }
     }//GEN-LAST:event_btnJabatanDeleteActionPerformed
+
+    private void btnDeleteMerkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteMerkActionPerformed
+        // TODO add your handling code here:
+        ExecuteMerk ex = new ExecuteMerk();
+        int hasil = ex.deleteData(this.id_merk);
+        if(hasil >0){
+            JOptionPane.showMessageDialog(null, "Data berhasil di hapus");
+            setDataMerk();
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Data gagal di hapus");
+        }
+    }//GEN-LAST:event_btnDeleteMerkActionPerformed
+
+    private void btnUpdateMerkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateMerkActionPerformed
+        // TODO add your handling code here:
+        String nama = txtNamaMerk.getText();
+        Merk j = new Merk(this.id_merk, nama);
+        ExecuteMerk ex = new ExecuteMerk();
+        int hasil = ex.updateData(j);
+        if(hasil >0){
+            JOptionPane.showMessageDialog(null, "Data berhasil di ubah");
+            setDataMerk();
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Data gagal di ubah");
+        }
+    }//GEN-LAST:event_btnUpdateMerkActionPerformed
+
+    private void btnSubmitMerkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitMerkActionPerformed
+        // TODO add your handling code here:
+        String nama = txtNamaMerk.getText();
+        Merk j = new Merk(nama);
+        ExecuteMerk ex = new ExecuteMerk();
+        int hasil = ex.insertData(j);
+        if(hasil >0){
+            JOptionPane.showMessageDialog(null, "Data berhasil di simpan");
+            setDataMerk();
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Data gagal di simpan");
+        }
+    }//GEN-LAST:event_btnSubmitMerkActionPerformed
+
+    private void tblJenisMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblJenisMouseClicked
+        // TODO add your handling code here:
+        int row = tblJenis.getSelectedRow();
+        String id = tblJenis.getValueAt(row, 0).toString();
+        String nama = tblJenis.getValueAt(row, 1).toString();
+        String keterangan = tblJenis.getValueAt(row, 2).toString();
+        this.id_jenis = Integer.parseInt(id);
+        txtNamaJenis.setText(nama);
+        taKeteranganJenis.setText(keterangan);
+    }//GEN-LAST:event_tblJenisMouseClicked
+
+    private void btnDeleteJenisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteJenisActionPerformed
+        // TODO add your handling code here:
+        ExecuteJenis ex = new ExecuteJenis();
+        int hasil = ex.deleteData(this.id_jenis);
+        if(hasil >0){
+            JOptionPane.showMessageDialog(null, "Data berhasil di hapus");
+            setDataJenis();
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Data gagal di hapus");
+        }
+    }//GEN-LAST:event_btnDeleteJenisActionPerformed
+
+    private void btnUpdateJenisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateJenisActionPerformed
+        // TODO add your handling code here:
+        String nama = txtNamaJenis.getText();
+        String keterangan = taKeteranganJenis.getText();
+        Jenis j = new Jenis(this.id_jenis, nama, keterangan);
+        ExecuteJenis ex = new ExecuteJenis();
+        int hasil = ex.updateData(j);
+        if(hasil >0){
+            JOptionPane.showMessageDialog(null, "Data berhasil di ubah");
+            setDataJenis();
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Data gagal di ubah");
+        }
+    }//GEN-LAST:event_btnUpdateJenisActionPerformed
+
+    private void btnSubmitJenisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitJenisActionPerformed
+        // TODO add your handling code here:
+        String nama = txtNamaJenis.getText();
+        String keterangan = taKeteranganJenis.getText();
+        Jenis j = new Jenis( nama, keterangan);
+        ExecuteJenis ex = new ExecuteJenis();
+        int hasil = ex.insertData(j);
+        if(hasil >0){
+            JOptionPane.showMessageDialog(null, "Data berhasil di simpan");
+            setDataJenis();
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Data gagal di simpan");
+        }
+    }//GEN-LAST:event_btnSubmitJenisActionPerformed
+
+    private void tblMerkMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMerkMouseClicked
+        // TODO add your handling code here:
+        int row = tblMerk.getSelectedRow();
+        String id = tblMerk.getValueAt(row, 0).toString();
+        String nama = tblMerk.getValueAt(row, 1).toString();
+        this.id_merk = Integer.parseInt(id);
+        txtNamaMerk.setText(nama);
+    }//GEN-LAST:event_tblMerkMouseClicked
+
+    private void tblTransaksiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblTransaksiMouseClicked
+        // TODO add your handling code here:
+        int row = tblTransaksi.getSelectedRow();
+        String id = tblTransaksi.getValueAt(row, 0).toString();
+        String id_pelanggan = tblTransaksi.getValueAt(row, 1).toString();
+        String id_barang = tblTransaksi.getValueAt(row, 2).toString();
+        String id_pegawai = tblTransaksi.getValueAt(row, 3).toString();
+        String qty = tblTransaksi.getValueAt(row, 4).toString();
+        this.id_transaksi = Integer.parseInt(id);
+        txtQtyTransaksi.setText(qty);
+    }//GEN-LAST:event_tblTransaksiMouseClicked
+
+    private void btnSubmitTransaksiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitTransaksiActionPerformed
+        // TODO add your handling code here:
+        int id_pelanggan = ((Pelanggan)cbbPelanggan.getSelectedItem()).getId_pelanggan();
+        int id_barang = ((Barang)cbbBarang.getSelectedItem()).getId_barang();
+        int id_pegawai = ((Pegawai)cbbPegawai.getSelectedItem()).getId_pegawai();
+        int qty = Integer.parseInt(txtQtyTransaksi.getText());
+        Transaksi t = new Transaksi(id_pelanggan, id_barang, id_pegawai, qty);
+        ExecuteTransaksi ex = new ExecuteTransaksi();
+        int hasil = ex.insertData(t);
+        if(hasil >0){
+            JOptionPane.showMessageDialog(null, "Data berhasil di simpan");
+            setDataTransaksi();
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Data gagal di simpan");
+        }
+    }//GEN-LAST:event_btnSubmitTransaksiActionPerformed
+
+    private void btnUpdateTransaksiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateTransaksiActionPerformed
+        // TODO add your handling code here:
+        int id_pelanggan = ((Pelanggan)cbbPelanggan.getSelectedItem()).getId_pelanggan();
+        int id_barang = ((Barang)cbbBarang.getSelectedItem()).getId_barang();
+        int id_pegawai = ((Pegawai)cbbPegawai.getSelectedItem()).getId_pegawai();
+        int qty = Integer.parseInt(txtQtyTransaksi.getText());
+        Transaksi t = new Transaksi(this.id_transaksi, id_pelanggan, id_barang, id_pegawai, qty);
+        ExecuteTransaksi ex = new ExecuteTransaksi();
+        int hasil = ex.updateData(t);
+        if(hasil >0){
+            JOptionPane.showMessageDialog(null, "Data berhasil di ubah");
+            setDataTransaksi();
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Data gagal di ubah");
+        }
+    }//GEN-LAST:event_btnUpdateTransaksiActionPerformed
+
+    private void btnDeleteTransaksiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteTransaksiActionPerformed
+        // TODO add your handling code here:
+        ExecuteTransaksi ex = new ExecuteTransaksi();
+        int hasil = ex.deleteData(this.id_transaksi);
+        if(hasil >0){
+            JOptionPane.showMessageDialog(null, "Data berhasil di hapus");
+            setDataTransaksi();
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Data gagal di hapus");
+        }
+    }//GEN-LAST:event_btnDeleteTransaksiActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1153,7 +1716,10 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnBarang;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnDeleteBarang;
+    private javax.swing.JButton btnDeleteJenis;
+    private javax.swing.JButton btnDeleteMerk;
     private javax.swing.JButton btnDeletePelanggan;
+    private javax.swing.JButton btnDeleteTransaksi;
     private javax.swing.JButton btnJabatan;
     private javax.swing.JButton btnJabatanDelete;
     private javax.swing.JButton btnJabatanSubmit;
@@ -1162,15 +1728,24 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnPegawai;
     private javax.swing.JButton btnPelanggan;
     private javax.swing.JButton btnSubmitBarang;
+    private javax.swing.JButton btnSubmitJenis;
+    private javax.swing.JButton btnSubmitMerk;
     private javax.swing.JButton btnSubmitPegawai;
     private javax.swing.JButton btnSubmitPelanggan;
+    private javax.swing.JButton btnSubmitTransaksi;
     private javax.swing.JButton btnTransaksi;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JButton btnUpdateBarang;
+    private javax.swing.JButton btnUpdateJenis;
+    private javax.swing.JButton btnUpdateMerk;
     private javax.swing.JButton btnUpdatePelanggan;
+    private javax.swing.JButton btnUpdateTransaksi;
+    private javax.swing.JComboBox<String> cbbBarang;
     private javax.swing.JComboBox<String> cbbJabatan;
     private javax.swing.JComboBox<String> cbbJenisBarang;
     private javax.swing.JComboBox<String> cbbMerkBarang;
+    private javax.swing.JComboBox<String> cbbPegawai;
+    private javax.swing.JComboBox<String> cbbPelanggan;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1180,7 +1755,14 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1192,15 +1774,23 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane10;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JScrollPane jScrollPane8;
+    private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JPanel pnlBarang;
     private javax.swing.JPanel pnlJabatan;
+    private javax.swing.JPanel pnlJenis;
     private javax.swing.JPanel pnlMerkJenis;
     private javax.swing.JPanel pnlPegawai;
     private javax.swing.JPanel pnlPelanggan;
@@ -1208,19 +1798,26 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JPanel pnlUtama;
     private javax.swing.JTextArea taAlamat;
     private javax.swing.JTextArea taKeteranganBarang;
+    private javax.swing.JTextArea taKeteranganJenis;
     private javax.swing.JTable tblBarang;
     private javax.swing.JTable tblJabatan;
+    private javax.swing.JTable tblJenis;
+    private javax.swing.JTable tblMerk;
     private javax.swing.JTable tblPegawai;
     private javax.swing.JTable tblPelanggan;
+    private javax.swing.JTable tblTransaksi;
     private javax.swing.JTextField txtAlamatPelanggan;
     private javax.swing.JTextField txtGaransiBarang;
     private javax.swing.JTextField txtNama;
     private javax.swing.JTextField txtNamaBarang;
     private javax.swing.JTextField txtNamaJabatan;
+    private javax.swing.JTextField txtNamaJenis;
+    private javax.swing.JTextField txtNamaMerk;
     private javax.swing.JTextField txtNamaPelanggan;
     private javax.swing.JTextField txtNoTelpon;
     private javax.swing.JTextField txtNoTelponPelanggan;
     private javax.swing.JTextField txtPassword;
+    private javax.swing.JTextField txtQtyTransaksi;
     private javax.swing.JTextField txtStokBarang;
     private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
