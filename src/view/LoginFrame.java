@@ -137,11 +137,20 @@ public class LoginFrame extends javax.swing.JFrame {
             ps.setString(2, pass);
             ResultSet rs = ps.executeQuery();
             if(rs.next()){
-                this.id_pegawai = rs.getInt("id_pegawai");
-                MainFrame main = new MainFrame();
-                main.setVisible(true);
-                this.dispose();
-                JOptionPane.showMessageDialog(btnLogin, "You have successfully login!");
+                if(rs.getString("level").equals("admin")){
+                    this.id_pegawai = rs.getInt("id_pegawai");
+                    MainFrame main = new MainFrame();
+                    main.setVisible(true);
+                    this.dispose();
+                    JOptionPane.showMessageDialog(btnLogin, "You have successfully login as admin!");
+                }else{
+                    this.id_pegawai = rs.getInt("id_pegawai");
+                    MainFrame main = new MainFrame();
+                    main.setVisible(true);
+                    this.dispose();
+                    JOptionPane.showMessageDialog(btnLogin, "You have successfully login as user!");
+                }
+                
             }else{
                 JOptionPane.showMessageDialog(btnLogin, "Wrong username and/or password");
             }
