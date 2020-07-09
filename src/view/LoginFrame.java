@@ -5,6 +5,7 @@
  */
 package view;
 
+import com.Common;
 import db.ConnectionManager;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -25,7 +26,9 @@ public class LoginFrame extends javax.swing.JFrame {
         initComponents();
     }
     public int id_pegawai;
-
+    public int getPegawai(){
+        return this.id_pegawai;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -139,14 +142,18 @@ public class LoginFrame extends javax.swing.JFrame {
             if(rs.next()){
                 if(rs.getString("level").equals("admin")){
                     this.id_pegawai = rs.getInt("id_pegawai");
+                    System.out.println("ID Pegawai : " + this.id_pegawai);
                     MainFrame main = new MainFrame();
                     main.setVisible(true);
                     this.dispose();
                     JOptionPane.showMessageDialog(btnLogin, "You have successfully login as admin!");
                 }else{
                     this.id_pegawai = rs.getInt("id_pegawai");
-                    MainFrame main = new MainFrame();
-                    main.setVisible(true);
+                    System.out.println("ID Pegawai : " + this.id_pegawai);
+                    com.Common common = new Common();
+                    common.setId_pegawai(this.id_pegawai);
+                    UserFrame sf = new UserFrame(this.id_pegawai);
+                    sf.setVisible(true);
                     this.dispose();
                     JOptionPane.showMessageDialog(btnLogin, "You have successfully login as user!");
                 }

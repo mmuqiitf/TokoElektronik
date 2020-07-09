@@ -12,23 +12,25 @@ package com;
 public class Barang {
     private int id_barang;
     private String nama, keterangan, garansi;
-    private int stok, id_jenis, id_merk;
+    private int stok, harga, id_jenis, id_merk;
 
-    public Barang(int id_barang, String nama, String keterangan, String garansi, int stok, int id_jenis, int id_merk) {
+    public Barang(int id_barang, String nama, String keterangan, String garansi, int stok, int harga, int id_jenis, int id_merk) {
         this.id_barang = id_barang;
         this.nama = nama;
         this.keterangan = keterangan;
         this.garansi = garansi;
         this.stok = stok;
+        this.harga = harga;
         this.id_jenis = id_jenis;
         this.id_merk = id_merk;
     }
 
-    public Barang(String nama, String keterangan, String garansi, int stok, int id_jenis, int id_merk) {
+    public Barang(String nama, String keterangan, String garansi, int stok, int harga, int id_jenis, int id_merk) {
         this.nama = nama;
         this.keterangan = keterangan;
         this.garansi = garansi;
         this.stok = stok;
+        this.harga = harga;
         this.id_jenis = id_jenis;
         this.id_merk = id_merk;
     }
@@ -40,7 +42,7 @@ public class Barang {
 
     public Barang() {
     }
-    
+
     public int getId_barang() {
         return id_barang;
     }
@@ -79,6 +81,14 @@ public class Barang {
 
     public void setStok(int stok) {
         this.stok = stok;
+    }
+
+    public int getHarga() {
+        return harga;
+    }
+
+    public void setHarga(int harga) {
+        this.harga = harga;
     }
 
     public int getId_jenis() {

@@ -5,13 +5,21 @@
  */
 package view;
 
+import com.Common;
+import com.ConvertListToObject;
+import com.Jenis;
+import com.Merk;
 import com.Pelanggan;
 import db.ConnectionManager;
 import exec.ExecutePelanggan;
+import exec.ExecuteTransaksi;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Vector;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 
 /**
@@ -25,8 +33,34 @@ public class UserFrame extends javax.swing.JFrame {
      */
     public UserFrame() {
         initComponents();
+        setDataPegawai();
+        setDataBarang();
     }
+    
+    public UserFrame(int id_pegawai){
+        initComponents();
+        setDataPegawai();
+        setDataBarang();
+        System.out.println("ID PEGAWAI : " + id_pegawai);
+        this.id_pegawai = id_pegawai;
+        lblNamaBarang.setVisible(false);
+    }
+    
+    public int id_pelanggan, id_pegawai, id_barang, harga_barang;
+    public String nama_barang;
 
+    private void setDataBarang(){
+        ConvertListToObject clto = new ConvertListToObject();
+        String[][] dataBarang = clto.getBarang();
+        tblDaftarBarang.setModel(new javax.swing.table.DefaultTableModel(
+            dataBarang,
+            new String [] {
+                "ID Barang", "Nama", "Keterangan", "Garansi", "Stok", "Harga", "ID Jenis", "ID Merk"
+            }
+        ));
+        jScrollPane2.setViewportView(tblDaftarBarang);
+        
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -45,6 +79,12 @@ public class UserFrame extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        txtQtyBarang = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        lblNamaBarang = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblDaftarBarang = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -65,56 +105,93 @@ public class UserFrame extends javax.swing.JFrame {
 
         jLabel3.setText("Alamat");
 
+        jLabel4.setText("Quantity");
+
+        jLabel5.setText("Nama Barang :");
+
+        lblNamaBarang.setText("NamaBarang");
+
         javax.swing.GroupLayout pnlInputPelangganLayout = new javax.swing.GroupLayout(pnlInputPelanggan);
         pnlInputPelanggan.setLayout(pnlInputPelangganLayout);
         pnlInputPelangganLayout.setHorizontalGroup(
             pnlInputPelangganLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlInputPelangganLayout.createSequentialGroup()
-                .addGroup(pnlInputPelangganLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(24, 24, 24)
+                .addGroup(pnlInputPelangganLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lblNamaBarang)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel4)
                     .addGroup(pnlInputPelangganLayout.createSequentialGroup()
-                        .addGap(314, 314, 314)
+                        .addGap(48, 48, 48)
                         .addComponent(btnSubmitPelanggan))
-                    .addGroup(pnlInputPelangganLayout.createSequentialGroup()
-                        .addGap(223, 223, 223)
-                        .addGroup(pnlInputPelangganLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addGroup(pnlInputPelangganLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jScrollPane1)
-                                .addComponent(txtNoTelponPelanggan)
-                                .addComponent(txtNamaPelanggan, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3))))
-                .addContainerGap(274, Short.MAX_VALUE))
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3)
+                    .addComponent(txtNamaPelanggan)
+                    .addComponent(txtNoTelponPelanggan)
+                    .addComponent(jScrollPane1)
+                    .addComponent(txtQtyBarang))
+                .addContainerGap(43, Short.MAX_VALUE))
         );
         pnlInputPelangganLayout.setVerticalGroup(
             pnlInputPelangganLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlInputPelangganLayout.createSequentialGroup()
-                .addGap(53, 53, 53)
+                .addContainerGap()
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtNamaPelanggan, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(37, 37, 37)
+                .addComponent(txtNamaPelanggan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtNoTelponPelanggan, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(24, 24, 24)
+                .addComponent(txtNoTelponPelanggan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblNamaBarang)
+                .addGap(16, 16, 16)
+                .addComponent(jLabel4)
+                .addGap(8, 8, 8)
+                .addComponent(txtQtyBarang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnSubmitPelanggan)
-                .addContainerGap(96, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        tblDaftarBarang.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        tblDaftarBarang.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblDaftarBarangMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(tblDaftarBarang);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pnlInputPelanggan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(pnlInputPelanggan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 515, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(pnlInputPelanggan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 532, Short.MAX_VALUE)
         );
 
         pack();
@@ -125,6 +202,7 @@ public class UserFrame extends javax.swing.JFrame {
         String nama = txtNamaPelanggan.getText();
         String no_telp = txtNoTelponPelanggan.getText();
         String alamat = taAlamatPelanggan.getText();
+        String qty = txtQtyBarang.getText();
         Pelanggan p = new Pelanggan(nama, no_telp, alamat);
         ExecutePelanggan ex = new ExecutePelanggan();
         int hasil = ex.insertData(p);
@@ -137,7 +215,21 @@ public class UserFrame extends javax.swing.JFrame {
                 Statement stm = conn.createStatement();
                 ResultSet rs = stm.executeQuery(query);
                 if(rs.next()){
-                    System.out.println(rs.getInt("id_pelanggan"));   
+                    
+                    this.id_pelanggan = rs.getInt("id_pelanggan");
+                    exec.ExecuteTransaksi et = new ExecuteTransaksi();
+                    int hasil_insert = et.insertData(this.id_pelanggan, this.id_barang, this.id_pegawai, Integer.parseInt(qty));
+                    int total = this.harga_barang * Integer.parseInt(qty);
+                    if(hasil_insert > 0){
+                        JOptionPane.showMessageDialog(null, 
+                                "Data transaksi berhasil di simpan : \n"
+                                + "Nama Pelanggan : " + nama + "\n"
+                                + "Barang : " + this.nama_barang + "\n"
+                                + "Quantity : " + qty + "\n"
+                                + "Total Harga : " + total
+                        );
+                    }
+                    System.out.println("ID Pelanggan : " + rs.getInt("id_pelanggan"));
                 }
             } catch (SQLException exception) {
                 exception.printStackTrace();
@@ -147,6 +239,20 @@ public class UserFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Data gagal di simpan");
         }
     }//GEN-LAST:event_btnSubmitPelangganActionPerformed
+
+    private void tblDaftarBarangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDaftarBarangMouseClicked
+        // TODO add your handling code here:
+        int row = tblDaftarBarang.getSelectedRow();
+        String id = tblDaftarBarang.getValueAt(row, 0).toString();
+        String nama = tblDaftarBarang.getValueAt(row, 1).toString();
+        String harga = tblDaftarBarang.getValueAt(row, 5).toString();
+        this.id_barang = Integer.parseInt(id);
+        this.nama_barang = nama;
+        this.harga_barang = Integer.parseInt(harga);
+        lblNamaBarang.setVisible(true);
+        lblNamaBarang.setText(nama);
+        System.out.println("ID Barang : " + this.id_barang);
+    }//GEN-LAST:event_tblDaftarBarangMouseClicked
 
     /**
      * @param args the command line arguments
@@ -188,10 +294,20 @@ public class UserFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lblNamaBarang;
     private javax.swing.JPanel pnlInputPelanggan;
     private javax.swing.JTextArea taAlamatPelanggan;
+    private javax.swing.JTable tblDaftarBarang;
     private javax.swing.JTextField txtNamaPelanggan;
     private javax.swing.JTextField txtNoTelponPelanggan;
+    private javax.swing.JTextField txtQtyBarang;
     // End of variables declaration//GEN-END:variables
+
+    private void setDataPegawai() {
+        System.out.println("ID Pegawai : " + this.id_pegawai);
+    }
 }

@@ -46,7 +46,7 @@ public class ExecuteTransaksi {
     public int insertData(Transaksi t){
         int hasil = 0;
         String query = "insert into transaksi(id_pelanggan, id_barang, id_pegawai, qty) values"
-                + "("+t.getId_pelanggan()+","+t.getId_barang()+ "," +t.getId_pegawai()+ "," +t.getQty() + ")"; ;
+                + "("+t.getId_pelanggan()+","+t.getId_barang()+ "," +t.getId_pegawai()+ "," +t.getQty() + ")";
         ConnectionManager conMan = new ConnectionManager();
         Connection conn = conMan.logOn();
         try {
@@ -60,6 +60,25 @@ public class ExecuteTransaksi {
         conMan.logOff();
         return hasil;
     }
+    
+    public int insertData(int id_pelanggan, int id_barang, int id_pegawai, int qty){
+        int hasil = 0;
+        String query = "insert into transaksi(id_pelanggan, id_barang, id_pegawai, qty) values"
+                + "("+id_pelanggan+","+id_barang+ "," +id_pegawai+ "," +qty + ")";
+        ConnectionManager conMan = new ConnectionManager();
+        Connection conn = conMan.logOn();
+        try {
+            Statement stm = conn.createStatement();
+            hasil = stm.executeUpdate(query);
+            System.out.println(query);
+        } catch (SQLException ex) {
+            Logger.getLogger(ExecuteTransaksi.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println(query);
+        }
+        conMan.logOff();
+        return hasil;
+    }
+    
     public int deleteData(int id_transaksi){
         String query = "delete from transaksi where id_transaksi="+ id_transaksi;
         int hasil = 0;

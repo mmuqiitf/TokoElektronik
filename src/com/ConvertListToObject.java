@@ -16,7 +16,7 @@ public class ConvertListToObject {
         List<Pegawai> myP = new ArrayList<Pegawai>();
         ExecutePegawai executePegawai = new ExecutePegawai();
         myP = executePegawai.getAllData();
-        String[][] dataPegawai = new String[myP.size()][8];
+        String[][] dataPegawai = new String[myP.size()][10];
         int i=0;
         for(Pegawai p : myP){
             dataPegawai[i][0]= ""+p.getId_pegawai();
@@ -52,7 +52,7 @@ public class ConvertListToObject {
         List<Barang> myB = new ArrayList<Barang>();
         ExecuteBarang executeBarang = new ExecuteBarang();
         myB = executeBarang.getAllData();
-        String[][] dataBarang = new String[myB.size()][7];
+        String[][] dataBarang = new String[myB.size()][8];
         int i=0;
         for(Barang b : myB){
             dataBarang[i][0]= ""+b.getId_barang();
@@ -60,8 +60,9 @@ public class ConvertListToObject {
             dataBarang[i][2]= b.getKeterangan();
             dataBarang[i][3]= b.getGaransi();
             dataBarang[i][4]= ""+b.getStok();
-            dataBarang[i][5]= ""+b.getId_jenis();
-            dataBarang[i][6]= ""+b.getId_merk();
+            dataBarang[i][5]= ""+b.getHarga();
+            dataBarang[i][6]= ""+b.getId_jenis();
+            dataBarang[i][7]= ""+b.getId_merk();
             i++;
         }
         return dataBarang;

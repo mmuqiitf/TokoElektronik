@@ -37,6 +37,7 @@ public class ExecuteBarang {
                 b.setKeterangan(rs.getString("keterangan"));
                 b.setGaransi(rs.getString("garansi"));
                 b.setStok(rs.getInt("stok"));
+                b.setHarga(rs.getInt("harga"));
                 b.setId_jenis(rs.getInt("id_jenis"));
                 b.setId_merk(rs.getInt("id_merk"));
                 lsBarang.add(b);

@@ -95,7 +95,7 @@ public class MainFrame extends javax.swing.JFrame {
         tblBarang.setModel(new javax.swing.table.DefaultTableModel(
             dataBarang,
             new String [] {
-                "ID Barang", "Nama", "Keterangan", "Garansi", "Stok", "ID Jenis", "ID Merk"
+                "ID Barang", "Nama", "Keterangan", "Garansi", "Stok", "Harga", "ID Jenis", "ID Merk"
             }
         ));
         jScrollPane11.setViewportView(tblBarang);
@@ -264,6 +264,8 @@ public class MainFrame extends javax.swing.JFrame {
         btnSubmitBarang = new javax.swing.JButton();
         btnUpdateBarang = new javax.swing.JButton();
         btnDeleteBarang = new javax.swing.JButton();
+        txtHargaBarang = new javax.swing.JTextField();
+        jLabel25 = new javax.swing.JLabel();
         jScrollPane11 = new javax.swing.JScrollPane();
         tblBarang = new javax.swing.JTable();
         pnlPelanggan = new javax.swing.JPanel();
@@ -586,6 +588,14 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
+        txtHargaBarang.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtHargaBarangActionPerformed(evt);
+            }
+        });
+
+        jLabel25.setText("Harga Barang");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -598,7 +608,8 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(jLabel10)
                     .addComponent(jLabel11)
                     .addComponent(jLabel12)
-                    .addComponent(jLabel13))
+                    .addComponent(jLabel13)
+                    .addComponent(jLabel25))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnDeleteBarang)
@@ -612,7 +623,8 @@ public class MainFrame extends javax.swing.JFrame {
                         .addComponent(txtGaransiBarang)
                         .addComponent(txtStokBarang)
                         .addComponent(cbbJenisBarang, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(cbbMerkBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(cbbMerkBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtHargaBarang)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -635,6 +647,10 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(txtStokBarang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel11))
                 .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtHargaBarang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel25))
+                .addGap(22, 22, 22)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cbbJenisBarang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel12))
@@ -662,6 +678,11 @@ public class MainFrame extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblBarang.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblBarangMouseClicked(evt);
+            }
+        });
         jScrollPane11.setViewportView(tblBarang);
 
         javax.swing.GroupLayout pnlBarangLayout = new javax.swing.GroupLayout(pnlBarang);
@@ -1327,9 +1348,10 @@ public class MainFrame extends javax.swing.JFrame {
         String keterangan = taKeteranganBarang.getText();
         String garansi = txtGaransiBarang.getText();
         String stok = txtStokBarang.getText();
+        String harga = txtHargaBarang.getText();
         int id_jenis = ((Jenis)cbbJenisBarang.getSelectedItem()).getId_jenis();
         int id_merk = ((Merk)cbbMerkBarang.getSelectedItem()).getId_merk();
-        Barang b = new Barang(nama, keterangan, garansi, Integer.parseInt(stok), id_jenis, id_merk);
+        Barang b = new Barang(nama, keterangan, garansi, Integer.parseInt(stok), Integer.parseInt(harga), id_jenis, id_merk);
         ExecuteBarang ex = new ExecuteBarang();
         int hasil = ex.insertData(b);
         if(hasil >0){
@@ -1347,9 +1369,10 @@ public class MainFrame extends javax.swing.JFrame {
         String keterangan = taKeteranganBarang.getText();
         String garansi = txtGaransiBarang.getText();
         String stok = txtStokBarang.getText();
+        String harga = txtHargaBarang.getText();
         int id_jenis = ((Jenis)cbbJenisBarang.getSelectedItem()).getId_jenis();
         int id_merk = ((Merk)cbbMerkBarang.getSelectedItem()).getId_merk();
-        Barang b = new Barang(this.id_barang, nama, keterangan, garansi, Integer.parseInt(stok), id_jenis, id_merk);
+        Barang b = new Barang(this.id_barang, nama, keterangan, garansi, Integer.parseInt(stok), Integer.parseInt(harga), id_jenis, id_merk);
         ExecuteBarang ex = new ExecuteBarang();
         int hasil = ex.updateData(b);
         if(hasil >0){
@@ -1655,6 +1678,29 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnDeleteTransaksiActionPerformed
 
+    private void txtHargaBarangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtHargaBarangActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtHargaBarangActionPerformed
+
+    private void tblBarangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblBarangMouseClicked
+        // TODO add your handling code here:
+        int row = tblBarang.getSelectedRow();
+        String id = tblBarang.getValueAt(row, 0).toString();
+        String nama = tblBarang.getValueAt(row, 1).toString();
+        String keterangan = tblBarang.getValueAt(row, 2).toString();
+        String garansi = tblBarang.getValueAt(row, 3).toString();
+        String stok = tblBarang.getValueAt(row, 4).toString();
+        String harga = tblBarang.getValueAt(row, 5).toString();
+        String id_jenis = tblBarang.getValueAt(row, 6).toString();
+        String id_merk = tblBarang.getValueAt(row, 7).toString();
+        txtNamaBarang.setText(nama);
+        taKeteranganBarang.setText(keterangan);
+        txtGaransiBarang.setText(garansi);
+        txtStokBarang.setText(stok);
+        txtHargaBarang.setText(harga);
+        this.id_barang = Integer.parseInt(id);
+    }//GEN-LAST:event_tblBarangMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -1741,6 +1787,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1786,6 +1833,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JTable tblTransaksi;
     private javax.swing.JTextField txtAlamatPelanggan;
     private javax.swing.JTextField txtGaransiBarang;
+    private javax.swing.JTextField txtHargaBarang;
     private javax.swing.JTextField txtNama;
     private javax.swing.JTextField txtNamaBarang;
     private javax.swing.JTextField txtNamaJabatan;
