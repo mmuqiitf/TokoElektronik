@@ -98,7 +98,7 @@ public class MainFrame extends javax.swing.JFrame {
                 "ID Barang", "Nama", "Keterangan", "Garansi", "Stok", "ID Jenis", "ID Merk"
             }
         ));
-        jScrollPane3.setViewportView(tblBarang);
+        jScrollPane11.setViewportView(tblBarang);
         PreparedStatement ps;
         PreparedStatement ps2;
         try{
@@ -129,13 +129,13 @@ public class MainFrame extends javax.swing.JFrame {
     private void setDataJabatan(){
         ConvertListToObject clto = new ConvertListToObject();
         String[][] dataJabatan = clto.getJabatan();
-        tblBarang.setModel(new javax.swing.table.DefaultTableModel(
+        tblJabatan.setModel(new javax.swing.table.DefaultTableModel(
             dataJabatan,
             new String [] {
                 "ID Jabatan", "Nama"
             }
         ));
-        jScrollPane6.setViewportView(tblBarang);
+        jScrollPane6.setViewportView(tblJabatan);
     }
     
     private void setDataJenis(){
@@ -264,7 +264,7 @@ public class MainFrame extends javax.swing.JFrame {
         btnSubmitBarang = new javax.swing.JButton();
         btnUpdateBarang = new javax.swing.JButton();
         btnDeleteBarang = new javax.swing.JButton();
-        jScrollPane3 = new javax.swing.JScrollPane();
+        jScrollPane11 = new javax.swing.JScrollPane();
         tblBarang = new javax.swing.JTable();
         pnlPelanggan = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
@@ -662,12 +662,7 @@ public class MainFrame extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        tblBarang.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblBarangMouseClicked(evt);
-            }
-        });
-        jScrollPane3.setViewportView(tblBarang);
+        jScrollPane11.setViewportView(tblBarang);
 
         javax.swing.GroupLayout pnlBarangLayout = new javax.swing.GroupLayout(pnlBarang);
         pnlBarang.setLayout(pnlBarangLayout);
@@ -676,12 +671,12 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(pnlBarangLayout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 562, Short.MAX_VALUE))
+                .addComponent(jScrollPane11, javax.swing.GroupLayout.DEFAULT_SIZE, 562, Short.MAX_VALUE))
         );
         pnlBarangLayout.setVerticalGroup(
             pnlBarangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 485, Short.MAX_VALUE)
+            .addComponent(jScrollPane11, javax.swing.GroupLayout.DEFAULT_SIZE, 485, Short.MAX_VALUE)
         );
 
         pnlUtama.add(pnlBarang, "cardBarang");
@@ -1326,23 +1321,6 @@ public class MainFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtStokBarangActionPerformed
 
-    private void tblBarangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblBarangMouseClicked
-        // TODO add your handling code here:
-        int row = tblBarang.getSelectedRow();
-        String id = tblBarang.getValueAt(row, 0).toString();
-        String nama = tblBarang.getValueAt(row, 3).toString();
-        String keterangan = tblBarang.getValueAt(row, 1).toString();
-        String garansi = tblBarang.getValueAt(row, 2).toString();
-        String stok = tblBarang.getValueAt(row, 4).toString();
-        String id_jenis = tblBarang.getValueAt(row,5).toString();
-        String id_merk = tblBarang.getValueAt(row,6).toString();
-        this.id_barang = Integer.parseInt(id);
-        txtNamaBarang.setText(nama);
-        taKeteranganBarang.setText(keterangan);
-        txtGaransiBarang.setText(garansi);
-        txtStokBarang.setText(stok);
-    }//GEN-LAST:event_tblBarangMouseClicked
-
     private void btnSubmitBarangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitBarangActionPerformed
         // TODO add your handling code here:
         String nama = txtNamaBarang.getText();
@@ -1779,8 +1757,8 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane10;
+    private javax.swing.JScrollPane jScrollPane11;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
