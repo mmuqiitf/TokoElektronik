@@ -5,7 +5,6 @@
  */
 package view;
 
-import com.Common;
 import com.ConvertListToObject;
 import com.Jenis;
 import com.Merk;

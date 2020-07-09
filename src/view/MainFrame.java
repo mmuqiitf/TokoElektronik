@@ -49,8 +49,19 @@ public class MainFrame extends javax.swing.JFrame {
         setDataMerk();
         setDataTransaksi();
     }
+    public MainFrame(int id_pegawai) {
+        initComponents();
+        setDataPegawai();
+        setDataBarang();
+        setDataPelanggan();
+        setDataJabatan();
+        setDataJenis();
+        setDataMerk();
+        setDataTransaksi();
+        this.id_admin = id_pegawai;
+    }
     public int id_pegawai, id_pelanggan, id_barang, id_merk, id_jenis, id_jabatan, id_transaksi;
-    
+    public int id_admin;
     private void setDataPegawai(){
         ConvertListToObject clto = new ConvertListToObject();
         String[][] dataSpek = clto.getPegawai();
