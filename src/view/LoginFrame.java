@@ -43,6 +43,7 @@ public class LoginFrame extends javax.swing.JFrame {
         btnLogin = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         txtPass = new javax.swing.JPasswordField();
+        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -75,11 +76,17 @@ public class LoginFrame extends javax.swing.JFrame {
             }
         });
 
+        jLabel4.setFont(new java.awt.Font("Roboto Medium", 1, 18)); // NOI18N
+        jLabel4.setText("APLIKASI TOKO ELEKTRONIK");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 510, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(138, Short.MAX_VALUE)
+                .addComponent(jLabel4)
+                .addGap(112, 112, 112))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(147, 147, 147)
@@ -101,7 +108,10 @@ public class LoginFrame extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 338, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addComponent(jLabel4)
+                .addContainerGap(294, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(80, 80, 80)
@@ -207,6 +217,7 @@ public class LoginFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPasswordField txtPass;
     private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables

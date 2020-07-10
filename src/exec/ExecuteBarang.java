@@ -49,6 +49,34 @@ public class ExecuteBarang {
         return lsBarang;
     }
     
+    public List<Barang> getAllDataWithStock(){
+        String query = "SELECT barang.*, barang.stok - SUM(transaksi.qty) AS sisa FROM barang "
+                + "JOIN transaksi ON barang.id_barang = transaksi.id_barang GROUP BY barang.id_barang";
+        ConnectionManager conMan = new ConnectionManager();
+        List<Barang> lsBarang = new ArrayList<>();
+        Connection conn = conMan.logOn();
+        try {
+            Statement stm = conn.createStatement();
+            ResultSet rs = stm.executeQuery(query);
+            while(rs.next()){
+                Barang b = new Barang();
+                b.setId_barang(rs.getInt("barang.id_barang"));
+                b.setNama(rs.getString("barang.nama"));
+                b.setKeterangan(rs.getString("barang.keterangan"));
+                b.setGaransi(rs.getString("barang.garansi"));
+                b.setStok(rs.getInt("sisa"));
+                b.setHarga(rs.getInt("barang.harga"));
+                b.setId_jenis(rs.getInt("barang.id_jenis"));
+                b.setId_merk(rs.getInt("barang.id_merk"));
+                lsBarang.add(b);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ExecuteBarang.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        conMan.logOff();
+        return lsBarang;
+    }
+    
     public int insertData(Barang b){
         int hasil = 0;
         String query = "insert into barang(nama, keterangan, garansi, stok, id_jenis, id_merk) values"

@@ -67,6 +67,26 @@ public class ConvertListToObject {
         }
         return dataBarang;
     }
+    
+    public String[][] getDaftarBarang(){
+        List<Barang> myB = new ArrayList<Barang>();
+        ExecuteBarang executeBarang = new ExecuteBarang();
+        myB = executeBarang.getAllDataWithStock();
+        String[][] dataBarang = new String[myB.size()][8];
+        int i=0;
+        for(Barang b : myB){
+            dataBarang[i][0]= ""+b.getId_barang();
+            dataBarang[i][1]= b.getNama();
+            dataBarang[i][2]= b.getKeterangan();
+            dataBarang[i][3]= b.getGaransi();
+            dataBarang[i][4]= ""+b.getStok();
+            dataBarang[i][5]= ""+b.getHarga();
+            dataBarang[i][6]= ""+b.getId_jenis();
+            dataBarang[i][7]= ""+b.getId_merk();
+            i++;
+        }
+        return dataBarang;
+    }
 
     public String[][] getTransaksi(){
         List<Transaksi> myS = new ArrayList<>();

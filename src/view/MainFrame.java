@@ -235,6 +235,7 @@ public class MainFrame extends javax.swing.JFrame {
         btnJabatan = new javax.swing.JButton();
         btnMerkJenis = new javax.swing.JButton();
         btnTransaksi = new javax.swing.JButton();
+        btnTransaksiPenjualan = new javax.swing.JButton();
         pnlUtama = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         pnlPegawai = new javax.swing.JPanel();
@@ -413,6 +414,18 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         jToolBar1.add(btnTransaksi);
+
+        btnTransaksiPenjualan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/sale.png"))); // NOI18N
+        btnTransaksiPenjualan.setText("Transaksi Penjualan");
+        btnTransaksiPenjualan.setFocusable(false);
+        btnTransaksiPenjualan.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnTransaksiPenjualan.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnTransaksiPenjualan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTransaksiPenjualanActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btnTransaksiPenjualan);
 
         pnlUtama.setLayout(new java.awt.CardLayout());
 
@@ -1226,7 +1239,7 @@ public class MainFrame extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(pnlUtama, javax.swing.GroupLayout.DEFAULT_SIZE, 840, Short.MAX_VALUE)
+            .addComponent(pnlUtama, javax.swing.GroupLayout.PREFERRED_SIZE, 840, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1712,6 +1725,14 @@ public class MainFrame extends javax.swing.JFrame {
         this.id_barang = Integer.parseInt(id);
     }//GEN-LAST:event_tblBarangMouseClicked
 
+    private void btnTransaksiPenjualanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTransaksiPenjualanActionPerformed
+        // TODO add your handling code here:
+        UserFrame uf = new UserFrame(id_admin);
+        uf.setVisible(true);
+        this.dispose();
+        System.out.println("ID Admin : " + id_admin);
+    }//GEN-LAST:event_btnTransaksiPenjualanActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1769,6 +1790,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnSubmitPelanggan;
     private javax.swing.JButton btnSubmitTransaksi;
     private javax.swing.JButton btnTransaksi;
+    private javax.swing.JButton btnTransaksiPenjualan;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JButton btnUpdateBarang;
     private javax.swing.JButton btnUpdateJenis;

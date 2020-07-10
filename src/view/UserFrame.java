@@ -43,14 +43,15 @@ public class UserFrame extends javax.swing.JFrame {
         System.out.println("ID PEGAWAI : " + id_pegawai);
         this.id_pegawai = id_pegawai;
         lblNamaBarang.setVisible(false);
+        lblJudulNamaBarang.setVisible(false);
     }
     
-    public int id_pelanggan, id_pegawai, id_barang, harga_barang;
+    public int id_pelanggan, id_pegawai, id_barang, harga_barang, stok;
     public String nama_barang;
 
     private void setDataBarang(){
         ConvertListToObject clto = new ConvertListToObject();
-        String[][] dataBarang = clto.getBarang();
+        String[][] dataBarang = clto.getDaftarBarang();
         tblDaftarBarang.setModel(new javax.swing.table.DefaultTableModel(
             dataBarang,
             new String [] {
@@ -80,7 +81,7 @@ public class UserFrame extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         txtQtyBarang = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        lblJudulNamaBarang = new javax.swing.JLabel();
         lblNamaBarang = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblDaftarBarang = new javax.swing.JTable();
@@ -91,7 +92,7 @@ public class UserFrame extends javax.swing.JFrame {
         taAlamatPelanggan.setRows(5);
         jScrollPane1.setViewportView(taAlamatPelanggan);
 
-        btnSubmitPelanggan.setText("Submit");
+        btnSubmitPelanggan.setText("Beli");
         btnSubmitPelanggan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSubmitPelangganActionPerformed(evt);
@@ -106,7 +107,7 @@ public class UserFrame extends javax.swing.JFrame {
 
         jLabel4.setText("Quantity");
 
-        jLabel5.setText("Nama Barang :");
+        lblJudulNamaBarang.setText("Nama Barang :");
 
         lblNamaBarang.setText("NamaBarang");
 
@@ -115,21 +116,23 @@ public class UserFrame extends javax.swing.JFrame {
         pnlInputPelangganLayout.setHorizontalGroup(
             pnlInputPelangganLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlInputPelangganLayout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addGroup(pnlInputPelangganLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(lblNamaBarang)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel4)
+                .addGroup(pnlInputPelangganLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlInputPelangganLayout.createSequentialGroup()
-                        .addGap(48, 48, 48)
-                        .addComponent(btnSubmitPelanggan))
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3)
-                    .addComponent(txtNamaPelanggan)
-                    .addComponent(txtNoTelponPelanggan)
-                    .addComponent(jScrollPane1)
-                    .addComponent(txtQtyBarang))
+                        .addGap(24, 24, 24)
+                        .addGroup(pnlInputPelangganLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lblNamaBarang)
+                            .addComponent(lblJudulNamaBarang)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3)
+                            .addComponent(txtNamaPelanggan)
+                            .addComponent(txtNoTelponPelanggan)
+                            .addComponent(jScrollPane1)
+                            .addComponent(txtQtyBarang)))
+                    .addGroup(pnlInputPelangganLayout.createSequentialGroup()
+                        .addGap(70, 70, 70)
+                        .addComponent(btnSubmitPelanggan, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(43, Short.MAX_VALUE))
         );
         pnlInputPelangganLayout.setVerticalGroup(
@@ -148,14 +151,14 @@ public class UserFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel5)
+                .addComponent(lblJudulNamaBarang)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblNamaBarang)
                 .addGap(16, 16, 16)
                 .addComponent(jLabel4)
                 .addGap(8, 8, 8)
                 .addComponent(txtQtyBarang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(34, 34, 34)
                 .addComponent(btnSubmitPelanggan)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -202,41 +205,47 @@ public class UserFrame extends javax.swing.JFrame {
         String no_telp = txtNoTelponPelanggan.getText();
         String alamat = taAlamatPelanggan.getText();
         String qty = txtQtyBarang.getText();
-        Pelanggan p = new Pelanggan(nama, no_telp, alamat);
-        ExecutePelanggan ex = new ExecutePelanggan();
-        int hasil = ex.insertData(p);
-        if(hasil >0){
-            JOptionPane.showMessageDialog(null, "Data berhasil di simpan");
-            String query = "select * from pelanggan ORDER BY id_pelanggan DESC LIMIT 1";
-            ConnectionManager conMan = new ConnectionManager();
-            Connection conn = conMan.logOn();
-            try {
-                Statement stm = conn.createStatement();
-                ResultSet rs = stm.executeQuery(query);
-                if(rs.next()){
-                    
-                    this.id_pelanggan = rs.getInt("id_pelanggan");
-                    exec.ExecuteTransaksi et = new ExecuteTransaksi();
-                    int hasil_insert = et.insertData(this.id_pelanggan, this.id_barang, this.id_pegawai, Integer.parseInt(qty));
-                    int total = this.harga_barang * Integer.parseInt(qty);
-                    if(hasil_insert > 0){
-                        JOptionPane.showMessageDialog(null, 
-                                "Data transaksi berhasil di simpan : \n"
-                                + "Nama Pelanggan : " + nama + "\n"
-                                + "Barang : " + this.nama_barang + "\n"
-                                + "Quantity : " + qty + "\n"
-                                + "Total Harga : " + total
-                        );
+        if(this.stok < Integer.parseInt(txtQtyBarang.getText())){
+            JOptionPane.showMessageDialog(null, "Barang tidak lebih dari "+ this.stok +"! \n" + "Mohon input kembali atau pilih barang lain");
+            txtQtyBarang.setText("");
+        }else{
+            Pelanggan p = new Pelanggan(nama, no_telp, alamat);
+            ExecutePelanggan ex = new ExecutePelanggan();
+            int hasil = ex.insertData(p);
+            if(hasil >0){
+                JOptionPane.showMessageDialog(null, "Data berhasil di simpan");
+                String query = "select * from pelanggan ORDER BY id_pelanggan DESC LIMIT 1";
+                ConnectionManager conMan = new ConnectionManager();
+                Connection conn = conMan.logOn();
+                try {
+                    Statement stm = conn.createStatement();
+                    ResultSet rs = stm.executeQuery(query);
+                    if(rs.next()){
+                        this.id_pelanggan = rs.getInt("id_pelanggan");
+                        exec.ExecuteTransaksi et = new ExecuteTransaksi();
+                        int hasil_insert = et.insertData(this.id_pelanggan, this.id_barang, this.id_pegawai, Integer.parseInt(qty));
+                        int total = this.harga_barang * Integer.parseInt(qty);
+                        if(hasil_insert > 0){
+                            JOptionPane.showMessageDialog(null, 
+                                    "Data transaksi berhasil di simpan : \n"
+                                    + "Nama Pelanggan : " + nama + "\n"
+                                    + "Barang : " + this.nama_barang + "\n"
+                                    + "Quantity : " + qty + "\n"
+                                    + "Total Harga : " + total
+                            );
+                        }
+                        System.out.println("ID Pelanggan : " + rs.getInt("id_pelanggan"));
+                        setDataBarang();
                     }
-                    System.out.println("ID Pelanggan : " + rs.getInt("id_pelanggan"));
+                } catch (SQLException exception) {
+                    exception.printStackTrace();
                 }
-            } catch (SQLException exception) {
-                exception.printStackTrace();
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "Data gagal di simpan");
             }
         }
-        else{
-            JOptionPane.showMessageDialog(null, "Data gagal di simpan");
-        }
+        
     }//GEN-LAST:event_btnSubmitPelangganActionPerformed
 
     private void tblDaftarBarangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDaftarBarangMouseClicked
@@ -244,11 +253,17 @@ public class UserFrame extends javax.swing.JFrame {
         int row = tblDaftarBarang.getSelectedRow();
         String id = tblDaftarBarang.getValueAt(row, 0).toString();
         String nama = tblDaftarBarang.getValueAt(row, 1).toString();
+        String stok = tblDaftarBarang.getValueAt(row, 4).toString();
         String harga = tblDaftarBarang.getValueAt(row, 5).toString();
         this.id_barang = Integer.parseInt(id);
         this.nama_barang = nama;
         this.harga_barang = Integer.parseInt(harga);
+        this.stok = Integer.parseInt(stok);
+        if(this.stok == 0){
+            JOptionPane.showMessageDialog(null, "Barang habis!");
+        }
         lblNamaBarang.setVisible(true);
+        lblJudulNamaBarang.setVisible(true);
         lblNamaBarang.setText(nama);
         System.out.println("ID Barang : " + this.id_barang);
     }//GEN-LAST:event_tblDaftarBarangMouseClicked
@@ -294,9 +309,9 @@ public class UserFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lblJudulNamaBarang;
     private javax.swing.JLabel lblNamaBarang;
     private javax.swing.JPanel pnlInputPelanggan;
     private javax.swing.JTextArea taAlamatPelanggan;
