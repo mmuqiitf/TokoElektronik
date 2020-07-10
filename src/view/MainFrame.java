@@ -429,6 +429,9 @@ public class MainFrame extends javax.swing.JFrame {
 
         pnlUtama.setLayout(new java.awt.CardLayout());
 
+        jLabel1.setFont(new java.awt.Font("Source Sans Pro", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 0, 204));
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/computer.png"))); // NOI18N
         jLabel1.setText("Aplikasi Toko Elektronik");
         pnlUtama.add(jLabel1, "card3");
 

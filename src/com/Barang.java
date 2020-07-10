@@ -110,7 +110,5 @@ public class Barang {
     @Override
     public String toString() {
         return id_barang + ": " + nama ;
-    }
-    
-    
+    } 
 }
