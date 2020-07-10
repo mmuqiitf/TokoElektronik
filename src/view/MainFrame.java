@@ -1476,11 +1476,11 @@ public class MainFrame extends javax.swing.JFrame {
         ExecutePelanggan ex = new ExecutePelanggan();
         int hasil = ex.deleteData(this.id_pelanggan);
         if(hasil >0){
-            JOptionPane.showMessageDialog(null, "Data berhasil di simpan");
+            JOptionPane.showMessageDialog(null, "Data berhasil di hapus");
             setDataPelanggan();
         }
         else{
-            JOptionPane.showMessageDialog(null, "Data gagal di simpan");
+            JOptionPane.showMessageDialog(null, "Data gagal di hapus");
         }
     }//GEN-LAST:event_btnDeletePelangganActionPerformed
 

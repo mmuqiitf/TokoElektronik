@@ -79,10 +79,11 @@ public class ExecuteBarang {
     
     public int insertData(Barang b){
         int hasil = 0;
-        String query = "insert into barang(nama, keterangan, garansi, stok, id_jenis, id_merk) values"
+        String query = "insert into barang(nama, keterangan, garansi, stok, harga, id_jenis, id_merk) values"
                 + "('"+b.getNama()+"','"+b.getKeterangan()+ "','"
                 + b.getGaransi()+ "',"
                 + b.getStok()+ "," +
+                + b.getHarga()+ "," +
                 + b.getId_jenis() + ", "
                 + b.getId_merk() + ")";
         ConnectionManager conMan = new ConnectionManager();
