@@ -121,6 +121,7 @@ public class ExecuteBarang {
                  "', keterangan='"+ b.getKeterangan()+  
                 "', garansi='" + b.getGaransi()+  
                 "', stok=" + b.getStok()+
+                ", harga=" + b.getHarga()+
                 ", id_jenis=" + b.getId_jenis()+  
                 ", id_merk=" + b.getId_merk()
                 +" where id_barang="+b.getId_barang();
