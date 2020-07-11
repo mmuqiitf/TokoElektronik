@@ -6,6 +6,11 @@
 package exec;
 
 import com.Barang;
+import com.Barang;
+import com.Jenis;
+import com.Jenis;
+import com.Merk;
+import com.Merk;
 import com.Pelanggan;
 import db.ConnectionManager;
 import java.sql.Connection;
@@ -40,6 +45,43 @@ public class ExecuteBarang {
                 b.setHarga(rs.getInt("harga"));
                 b.setId_jenis(rs.getInt("id_jenis"));
                 b.setId_merk(rs.getInt("id_merk"));
+                lsBarang.add(b);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ExecuteBarang.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        conMan.logOff();
+        return lsBarang;
+    }
+    
+    public List<Barang> getAllDataWithRelation(){
+        String query = "select barang.*, merk.*, jenis.* from barang join merk on barang.id_merk = merk.id_merk "
+                + "join jenis on barang.id_jenis = jenis.id_jenis";
+        ConnectionManager conMan = new ConnectionManager();
+        List<Barang> lsBarang = new ArrayList<>();
+        Connection conn = conMan.logOn();
+        try {
+            Statement stm = conn.createStatement();
+            ResultSet rs = stm.executeQuery(query);
+            while(rs.next()){
+                Barang b = new Barang();
+                b.setId_barang(rs.getInt("barang.id_barang"));
+                b.setNama(rs.getString("barang.nama"));
+                b.setKeterangan(rs.getString("barang.keterangan"));
+                b.setGaransi(rs.getString("barang.garansi"));
+                b.setStok(rs.getInt("barang.stok"));
+                b.setHarga(rs.getInt("barang.harga"));
+                b.setId_jenis(rs.getInt("barang.id_jenis"));
+                b.setId_merk(rs.getInt("barang.id_merk"));
+                Merk merk = new Merk();
+                merk.setId_merk(rs.getInt("barang.id_merk"));
+                merk.setNama(rs.getString("merk.nama"));
+                Jenis jenis = new Jenis();
+                jenis.setId_jenis(rs.getInt("barang.id_jenis"));
+                jenis.setNama(rs.getString("jenis.nama"));
+                jenis.setKeterangan(rs.getString("jenis.keterangan"));
+                b.setMerk(merk);
+                b.setJenis(jenis);
                 lsBarang.add(b);
             }
         } catch (SQLException ex) {

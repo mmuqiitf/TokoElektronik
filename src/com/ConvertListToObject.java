@@ -15,8 +15,8 @@ public class ConvertListToObject {
     public String[][] getPegawai(){
         List<Pegawai> myP = new ArrayList<Pegawai>();
         ExecutePegawai executePegawai = new ExecutePegawai();
-        myP = executePegawai.getAllData();
-        String[][] dataPegawai = new String[myP.size()][10];
+        myP = executePegawai.getAllDataWithRelation();
+        String[][] dataPegawai = new String[myP.size()][12];
         int i=0;
         for(Pegawai p : myP){
             dataPegawai[i][0]= ""+p.getId_pegawai();
@@ -27,6 +27,7 @@ public class ConvertListToObject {
             dataPegawai[i][5]= p.getAlamat();
             dataPegawai[i][6]= ""+p.getId_jabatan();
             dataPegawai[i][7]= p.getLevel();
+            dataPegawai[i][8]= p.getJabatan().getNama();
             i++;
         }
         return dataPegawai;
@@ -51,8 +52,8 @@ public class ConvertListToObject {
     public String[][] getBarang(){
         List<Barang> myB = new ArrayList<Barang>();
         ExecuteBarang executeBarang = new ExecuteBarang();
-        myB = executeBarang.getAllData();
-        String[][] dataBarang = new String[myB.size()][8];
+        myB = executeBarang.getAllDataWithRelation();
+        String[][] dataBarang = new String[myB.size()][13];
         int i=0;
         for(Barang b : myB){
             dataBarang[i][0]= ""+b.getId_barang();
@@ -63,6 +64,8 @@ public class ConvertListToObject {
             dataBarang[i][5]= ""+b.getHarga();
             dataBarang[i][6]= ""+b.getId_jenis();
             dataBarang[i][7]= ""+b.getId_merk();
+            dataBarang[i][8]= ""+b.getMerk().getNama();
+            dataBarang[i][9]= ""+b.getJenis().getNama();
             i++;
         }
         return dataBarang;
@@ -91,8 +94,8 @@ public class ConvertListToObject {
     public String[][] getTransaksi(){
         List<Transaksi> myS = new ArrayList<>();
         ExecuteTransaksi et = new ExecuteTransaksi();
-        myS = et.getAllData();
-        String[][] dataTransaksi = new String[myS.size()][5];
+        myS = et.getAllDataWithRelation();
+        String[][] dataTransaksi = new String[myS.size()][8];
         int i=0;
         for(Transaksi t : myS){
             dataTransaksi[i][0]= ""+t.getId_transaksi();
@@ -100,6 +103,9 @@ public class ConvertListToObject {
             dataTransaksi[i][2]= ""+t.getId_barang();
             dataTransaksi[i][3]= ""+t.getId_pegawai();
             dataTransaksi[i][4]= ""+t.getQty();
+            dataTransaksi[i][5]= ""+t.getPelanggan().getNama();
+            dataTransaksi[i][6]= ""+t.getBarang().getNama();
+            dataTransaksi[i][7]= ""+t.getPegawai().getNama();
             i++;
         }
         return dataTransaksi;

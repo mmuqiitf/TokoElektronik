@@ -77,6 +77,7 @@ public class LoginFrame extends javax.swing.JFrame {
         });
 
         jLabel4.setFont(new java.awt.Font("Roboto Medium", 1, 18)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(204, 0, 153));
         jLabel4.setText("APLIKASI TOKO ELEKTRONIK");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

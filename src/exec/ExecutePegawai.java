@@ -5,6 +5,9 @@
  */
 package exec;
 
+import com.Jabatan;
+import com.Jabatan;
+import com.Pegawai;
 import com.Pegawai;
 import db.ConnectionManager;
 import java.sql.Connection;
@@ -39,6 +42,37 @@ public class ExecutePegawai {
                 p.setAlamat(rs.getString("alamat"));
                 p.setLevel(rs.getString("level"));
                 p.setId_jabatan(rs.getInt("id_jabatan"));
+                lsPegawai.add(p);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ExecutePegawai.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        conMan.logOff();
+        return lsPegawai;
+    }
+    
+    public List<Pegawai> getAllDataWithRelation(){
+        String query = "select pegawai.*, jabatan.* from pegawai join jabatan on pegawai.id_jabatan = jabatan.id_jabatan";
+        ConnectionManager conMan = new ConnectionManager();
+        List<Pegawai> lsPegawai = new ArrayList<>();
+        Connection conn = conMan.logOn();
+        try {
+            Statement stm = conn.createStatement();
+            ResultSet rs = stm.executeQuery(query);
+            while(rs.next()){
+                Pegawai p = new Pegawai();
+                p.setId_pegawai(rs.getInt("pegawai.id_pegawai"));
+                p.setUsername(rs.getString("pegawai.username"));
+                p.setPassword(rs.getString("pegawai.password"));
+                p.setNama(rs.getString("pegawai.nama"));
+                p.setNo_telpon(rs.getString("pegawai.no_telpon"));
+                p.setAlamat(rs.getString("pegawai.alamat"));
+                p.setLevel(rs.getString("pegawai.level"));
+                p.setId_jabatan(rs.getInt("pegawai.id_jabatan"));
+                Jabatan jabatan = new Jabatan();
+                jabatan.setId_jabatan(rs.getInt("pegawai.id_jabatan"));
+                jabatan.setNama(rs.getString("jabatan.nama"));
+                p.setJabatan(jabatan);
                 lsPegawai.add(p);
             }
         } catch (SQLException ex) {

@@ -13,6 +13,35 @@ public class Barang {
     private int id_barang;
     private String nama, keterangan, garansi;
     private int stok, harga, id_jenis, id_merk;
+    private Merk merk;
+    private Jenis jenis;
+
+    public Barang(int id_barang, String nama, String keterangan, String garansi, int stok, int harga, int id_jenis, int id_merk, Merk merk, Jenis jenis) {
+        this.id_barang = id_barang;
+        this.nama = nama;
+        this.keterangan = keterangan;
+        this.garansi = garansi;
+        this.stok = stok;
+        this.harga = harga;
+        this.id_jenis = id_jenis;
+        this.id_merk = id_merk;
+        this.merk = merk;
+        this.jenis = jenis;
+    }
+
+    public Barang(String nama, String keterangan, String garansi, int stok, int harga, int id_jenis, int id_merk, Merk merk, Jenis jenis) {
+        this.nama = nama;
+        this.keterangan = keterangan;
+        this.garansi = garansi;
+        this.stok = stok;
+        this.harga = harga;
+        this.id_jenis = id_jenis;
+        this.id_merk = id_merk;
+        this.merk = merk;
+        this.jenis = jenis;
+    }
+    
+    
 
     public Barang(int id_barang, String nama, String keterangan, String garansi, int stok, int harga, int id_jenis, int id_merk) {
         this.id_barang = id_barang;
@@ -105,6 +134,22 @@ public class Barang {
 
     public void setId_merk(int id_merk) {
         this.id_merk = id_merk;
+    }
+
+    public Merk getMerk() {
+        return merk;
+    }
+
+    public void setMerk(Merk merk) {
+        this.merk = merk;
+    }
+
+    public Jenis getJenis() {
+        return jenis;
+    }
+
+    public void setJenis(Jenis jenis) {
+        this.jenis = jenis;
     }
 
     @Override

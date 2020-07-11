@@ -13,6 +13,21 @@ public class Pegawai {
     private int id_pegawai;
     private String username, password, nama, no_telpon, alamat, level;
     private int id_jabatan;
+    private Jabatan jabatan;
+
+    public Pegawai(int id_pegawai, String username, String password, String nama, String no_telpon, String alamat, String level, int id_jabatan, Jabatan jabatan) {
+        this.id_pegawai = id_pegawai;
+        this.username = username;
+        this.password = password;
+        this.nama = nama;
+        this.no_telpon = no_telpon;
+        this.alamat = alamat;
+        this.level = level;
+        this.id_jabatan = id_jabatan;
+        this.jabatan = jabatan;
+    }
+    
+    
 
     public Pegawai(int id_pegawai, String username, String password, String nama, String no_telpon, String alamat, String level, int id_jabatan) {
         this.id_pegawai = id_pegawai;
@@ -105,6 +120,14 @@ public class Pegawai {
 
     public void setId_jabatan(int id_jabatan) {
         this.id_jabatan = id_jabatan;
+    }
+
+    public Jabatan getJabatan() {
+        return jabatan;
+    }
+
+    public void setJabatan(Jabatan jabatan) {
+        this.jabatan = jabatan;
     }
 
     @Override

@@ -68,7 +68,7 @@ public class MainFrame extends javax.swing.JFrame {
         tblPegawai.setModel(new javax.swing.table.DefaultTableModel(
             dataSpek,
             new String [] {
-                "ID Pegawai", "Username", "Password", "Nama", "No Telp", "Alamat", "ID Jabatan", "Level"
+                "ID Pegawai", "Username", "Password", "Nama", "No Telp", "Alamat", "ID Jabatan", "Level", "Jabatan"
             }
         ));
         jScrollPane1.setViewportView(tblPegawai);
@@ -106,7 +106,7 @@ public class MainFrame extends javax.swing.JFrame {
         tblBarang.setModel(new javax.swing.table.DefaultTableModel(
             dataBarang,
             new String [] {
-                "ID Barang", "Nama", "Keterangan", "Garansi", "Stok", "Harga", "ID Jenis", "ID Merk"
+                "ID Barang", "Nama", "Keterangan", "Garansi", "Stok", "Harga", "ID Jenis", "ID Merk", "Nama Merk", "Nama Jenis"
             }
         ));
         jScrollPane11.setViewportView(tblBarang);
@@ -179,7 +179,7 @@ public class MainFrame extends javax.swing.JFrame {
         tblTransaksi.setModel(new javax.swing.table.DefaultTableModel(
             dataTransaksi,
             new String [] {
-                "ID Transaksi", "ID Pelanggan", "ID Barang", "ID Pegawai", "Qty"
+                "ID Transaksi", "ID Pelanggan", "ID Barang", "ID Pegawai", "Qty", "Nama Pelanggan", "Nama Barang", "Nama Pegawai"
             }
         ));
         jScrollPane10.setViewportView(tblTransaksi);
