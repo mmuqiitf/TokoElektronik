@@ -55,7 +55,7 @@ public class UserFrame extends javax.swing.JFrame {
         tblDaftarBarang.setModel(new javax.swing.table.DefaultTableModel(
             dataBarang,
             new String [] {
-                "ID Barang", "Nama", "Keterangan", "Garansi", "Stok", "Harga", "ID Jenis", "ID Merk"
+                "ID Barang", "Nama", "Keterangan", "Garansi", "Stok", "Harga", "ID Jenis", "ID Merk", "Jenis", "Merk"
             }
         ));
         jScrollPane2.setViewportView(tblDaftarBarang);

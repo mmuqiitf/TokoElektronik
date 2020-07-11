@@ -92,8 +92,9 @@ public class ExecuteBarang {
     }
     
     public List<Barang> getAllDataWithStock(){
-        String query = "SELECT barang.*, barang.stok - SUM(transaksi.qty) AS sisa FROM barang "
-                + "JOIN transaksi ON barang.id_barang = transaksi.id_barang GROUP BY barang.id_barang";
+        String query = "SELECT barang.*, barang.stok - SUM(transaksi.qty) AS sisa, merk.*, jenis.* FROM barang "
+                + "join transaksi on barang.id_barang = transaksi.id_barang join merk on barang.id_merk = merk.id_merk "
+                + "join jenis on barang.id_jenis = jenis.id_jenis GROUP BY barang.id_barang";
         ConnectionManager conMan = new ConnectionManager();
         List<Barang> lsBarang = new ArrayList<>();
         Connection conn = conMan.logOn();
@@ -110,6 +111,15 @@ public class ExecuteBarang {
                 b.setHarga(rs.getInt("barang.harga"));
                 b.setId_jenis(rs.getInt("barang.id_jenis"));
                 b.setId_merk(rs.getInt("barang.id_merk"));
+                Merk merk = new Merk();
+                merk.setId_merk(rs.getInt("barang.id_merk"));
+                merk.setNama(rs.getString("merk.nama"));
+                Jenis jenis = new Jenis();
+                jenis.setId_jenis(rs.getInt("barang.id_jenis"));
+                jenis.setNama(rs.getString("jenis.nama"));
+                jenis.setKeterangan(rs.getString("jenis.keterangan"));
+                b.setMerk(merk);
+                b.setJenis(jenis);
                 lsBarang.add(b);
             }
         } catch (SQLException ex) {
